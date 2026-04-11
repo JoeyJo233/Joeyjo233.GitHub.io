@@ -105,29 +105,6 @@ const posts = [
               </p>
             </div>
 
-            <!-- Sort controls -->
-            <div class="flex items-center gap-2 mb-8 flex-wrap">
-              <span class="text-xs font-bold uppercase tracking-widest text-black/40 dark:text-white/40 mr-1">
-                {t(lang, 'blog.sort.label')}
-              </span>
-              <div class="flex gap-1.5 flex-wrap">
-                <button data-sort-field="date" class="sort-field-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-black dark:bg-white text-white dark:text-black">
-                  {t(lang, 'blog.sort.date')}
-                </button>
-                <button data-sort-field="title" class="sort-field-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5">
-                  {t(lang, 'blog.sort.title')}
-                </button>
-                <button data-sort-field="updated" class="sort-field-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5">
-                  {t(lang, 'blog.sort.updated')}
-                </button>
-              </div>
-              <button id="sort-dir-btn" data-dir="desc" title="{t(lang, 'blog.sort.desc')}" class="ml-1 p-1.5 rounded-lg text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="sort-dir-icon">
-                  <path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M11 18h2"></path>
-                </svg>
-              </button>
-            </div>
-
             <!-- Blog posts -->
             <div class="space-y-6" id="posts-container">
               {posts.map((post) => (
@@ -162,8 +139,31 @@ const posts = [
             </div>
           </div>
 
-          <!-- Right sidebar placeholder (xl only) -->
-          <aside class="hidden xl:block w-48 shrink-0"></aside>
+          <!-- Right sidebar: sort controls -->
+          <aside class="hidden xl:block w-48 shrink-0">
+            <div class="sticky top-24 px-4">
+              <span class="text-xs font-bold uppercase tracking-widest text-black/40 dark:text-white/40 mb-4 block">
+                {t(lang, 'blog.sort.label')}
+              </span>
+              <div class="space-y-1 mb-3">
+                <button data-sort-field="date" class="sort-field-btn w-full text-left px-4 py-2.5 rounded-xl text-sm transition-colors flex items-center justify-between bg-black dark:bg-white text-white dark:text-black font-bold">
+                  {t(lang, 'blog.sort.date')}
+                </button>
+                <button data-sort-field="title" class="sort-field-btn w-full text-left px-4 py-2.5 rounded-xl text-sm transition-colors flex items-center justify-between text-black/60 dark:text-white/60 hover:bg-black/5 dark:hover:bg-white/5">
+                  {t(lang, 'blog.sort.title')}
+                </button>
+                <button data-sort-field="updated" class="sort-field-btn w-full text-left px-4 py-2.5 rounded-xl text-sm transition-colors flex items-center justify-between text-black/60 dark:text-white/60 hover:bg-black/5 dark:hover:bg-white/5">
+                  {t(lang, 'blog.sort.updated')}
+                </button>
+              </div>
+              <button id="sort-dir-btn" data-dir="desc" class="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm text-black/60 dark:text-white/60 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="sort-dir-icon">
+                  <path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M11 18h2"></path>
+                </svg>
+                <span id="sort-dir-label">{t(lang, 'blog.sort.desc')}</span>
+              </button>
+            </div>
+          </aside>
         </div>
 
         <!-- Mobile bottom bar -->
@@ -262,24 +262,27 @@ const posts = [
     function setSortFieldActive(field) {
       sortFieldBtns.forEach(b => {
         if (b.dataset.sortField === field) {
-          b.classList.add('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black');
-          b.classList.remove('text-black/50', 'dark:text-white/50', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+          b.classList.add('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black', 'font-bold');
+          b.classList.remove('text-black/60', 'dark:text-white/60', 'text-black/50', 'dark:text-white/50', 'hover:bg-black/5', 'dark:hover:bg-white/5');
         } else {
-          b.classList.remove('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black');
-          b.classList.add('text-black/50', 'dark:text-white/50', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+          b.classList.remove('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black', 'font-bold');
+          b.classList.add('text-black/60', 'dark:text-white/60', 'hover:bg-black/5', 'dark:hover:bg-white/5');
         }
       });
     }
 
     function updateDirIcon() {
       const icon = document.getElementById('sort-dir-icon');
+      const label = document.getElementById('sort-dir-label');
       if (sortDirBtn) sortDirBtn.dataset.dir = sortDir;
-      if (!icon) return;
-      if (sortDir === 'desc') {
-        icon.innerHTML = '<path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M11 18h2"></path>';
-      } else {
-        icon.innerHTML = '<path d="M3 18h18"></path><path d="M7 12h10"></path><path d="M11 6h2"></path>';
+      if (icon) {
+        if (sortDir === 'desc') {
+          icon.innerHTML = '<path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M11 18h2"></path>';
+        } else {
+          icon.innerHTML = '<path d="M3 18h18"></path><path d="M7 12h10"></path><path d="M11 6h2"></path>';
+        }
       }
+      if (label) label.textContent = sortDir === 'desc' ? '降序' : '升序';
     }
 
     function sortArticles() {

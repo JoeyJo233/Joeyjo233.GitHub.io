@@ -105,10 +105,33 @@ const posts = [
               </p>
             </div>
 
+            <!-- Sort controls -->
+            <div class="flex items-center gap-2 mb-8 flex-wrap">
+              <span class="text-xs font-bold uppercase tracking-widest text-black/40 dark:text-white/40 mr-1">
+                {t(lang, 'blog.sort.label')}
+              </span>
+              <div class="flex gap-1.5 flex-wrap">
+                <button data-sort-field="date" class="sort-field-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-black dark:bg-white text-white dark:text-black">
+                  {t(lang, 'blog.sort.date')}
+                </button>
+                <button data-sort-field="title" class="sort-field-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5">
+                  {t(lang, 'blog.sort.title')}
+                </button>
+                <button data-sort-field="updated" class="sort-field-btn px-3 py-1.5 rounded-lg text-xs font-medium transition-colors text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5">
+                  {t(lang, 'blog.sort.updated')}
+                </button>
+              </div>
+              <button id="sort-dir-btn" data-dir="desc" title="{t(lang, 'blog.sort.desc')}" class="ml-1 p-1.5 rounded-lg text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="sort-dir-icon">
+                  <path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M11 18h2"></path>
+                </svg>
+              </button>
+            </div>
+
             <!-- Blog posts -->
-            <div class="space-y-6">
+            <div class="space-y-6" id="posts-container">
               {posts.map((post) => (
-                <article data-category={post.category} class="p-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm hover:shadow-lg transition-shadow group cursor-pointer">
+                <article data-category={post.category} data-date={post.date} data-title={post.title} data-updated={post.updatedDate} class="p-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm hover:shadow-lg transition-shadow group cursor-pointer">
                   <div class="flex flex-wrap items-center gap-3 mb-3">
                     <span class="text-xs font-mono text-black/40 dark:text-white/40">
                       {post.date}
@@ -226,6 +249,73 @@ const posts = [
           panel.appendChild(clone);
         });
         document.body.appendChild(panel);
+      });
+    }
+
+    // Sort functionality
+    const sortFieldBtns = document.querySelectorAll('.sort-field-btn');
+    const sortDirBtn = document.getElementById('sort-dir-btn');
+    const postsContainer = document.getElementById('posts-container');
+    let sortField = 'date';
+    let sortDir = 'desc';
+
+    function setSortFieldActive(field) {
+      sortFieldBtns.forEach(b => {
+        if (b.dataset.sortField === field) {
+          b.classList.add('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black');
+          b.classList.remove('text-black/50', 'dark:text-white/50', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+        } else {
+          b.classList.remove('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black');
+          b.classList.add('text-black/50', 'dark:text-white/50', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+        }
+      });
+    }
+
+    function updateDirIcon() {
+      const icon = document.getElementById('sort-dir-icon');
+      if (sortDirBtn) sortDirBtn.dataset.dir = sortDir;
+      if (!icon) return;
+      if (sortDir === 'desc') {
+        icon.innerHTML = '<path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M11 18h2"></path>';
+      } else {
+        icon.innerHTML = '<path d="M3 18h18"></path><path d="M7 12h10"></path><path d="M11 6h2"></path>';
+      }
+    }
+
+    function sortArticles() {
+      if (!postsContainer) return;
+      const allArticles = Array.from(postsContainer.querySelectorAll('article'));
+      allArticles.sort((a, b) => {
+        let aVal = '', bVal = '';
+        if (sortField === 'title') {
+          aVal = (a.dataset.title || '').toLowerCase();
+          bVal = (b.dataset.title || '').toLowerCase();
+          return sortDir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+        } else if (sortField === 'updated') {
+          aVal = a.dataset.updated || '';
+          bVal = b.dataset.updated || '';
+        } else {
+          aVal = a.dataset.date || '';
+          bVal = b.dataset.date || '';
+        }
+        return sortDir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      });
+      allArticles.forEach(a => postsContainer.appendChild(a));
+    }
+
+    sortFieldBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sortField = btn.dataset.sortField || 'date';
+        setSortFieldActive(sortField);
+        sortArticles();
+      });
+    });
+
+    if (sortDirBtn) {
+      sortDirBtn.addEventListener('click', () => {
+        sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+        updateDirIcon();
+        sortArticles();
       });
     }
   })();

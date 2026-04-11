@@ -74,6 +74,12 @@ export const translations: Record<Lang, Record<string, string>> = {
     "blog.sidebar.thoughts": "随笔思考",
     "blog.readMore": "阅读全文",
     "blog.min": "分钟阅读",
+    "blog.sort.label": "排序",
+    "blog.sort.date": "创建时间",
+    "blog.sort.title": "标题",
+    "blog.sort.updated": "最后更新",
+    "blog.sort.asc": "升序",
+    "blog.sort.desc": "降序",
 
     // Contact Page
     "contact.badge": "保持联系",
@@ -163,6 +169,12 @@ export const translations: Record<Lang, Record<string, string>> = {
     "blog.sidebar.thoughts": "Thoughts",
     "blog.readMore": "Read More",
     "blog.min": "min read",
+    "blog.sort.label": "Sort",
+    "blog.sort.date": "Date",
+    "blog.sort.title": "Title",
+    "blog.sort.updated": "Updated",
+    "blog.sort.asc": "Asc",
+    "blog.sort.desc": "Desc",
 
     // Contact Page
     "contact.badge": "Get in Touch",

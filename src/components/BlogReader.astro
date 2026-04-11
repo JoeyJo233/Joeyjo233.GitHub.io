@@ -33,7 +33,7 @@ const rendered = await Promise.all(
   })
 );
 
-const activeSlug = rendered[0]?.entry.slug ?? '';
+const activeSlug = rendered[0]?.entry.id ?? '';
 
 const categories = blogCategoryOrder
   .map((key, i) => {
@@ -83,11 +83,11 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
                   <button
                     type="button"
                     class={`blog-sidebar-btn blog-post-trigger w-full rounded-lg px-3 py-1.5 text-left text-xs leading-snug transition-colors ${
-                      entry.slug === activeSlug
+                      entry.id === activeSlug
                         ? 'bg-black text-white dark:bg-white dark:text-black font-semibold'
                         : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black/80 dark:hover:text-white/80'
                     }`}
-                    data-post-button={entry.slug}
+                    data-post-button={entry.id}
                     data-category-group={entry.data.category}
                   >
                     {entry.data.title}
@@ -139,11 +139,11 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
                   <button
                     type="button"
                     class={`blog-sidebar-btn blog-post-trigger w-full rounded-lg px-3 py-2.5 text-left text-sm leading-relaxed transition-colors ${
-                      entry.slug === activeSlug
+                      entry.id === activeSlug
                         ? 'bg-black text-white dark:bg-white dark:text-black font-semibold'
                         : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'
                     }`}
-                    data-post-button={entry.slug}
+                    data-post-button={entry.id}
                     data-category-group={entry.data.category}
                   >
                     {entry.data.title}
@@ -163,8 +163,8 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
 
         return (
           <article
-            class={`blog-article ${entry.slug === activeSlug ? '' : 'hidden'}`}
-            data-post-article={entry.slug}
+            class={`blog-article ${entry.id === activeSlug ? '' : 'hidden'}`}
+            data-post-article={entry.id}
           >
             {/* Section breadcrumb */}
             <span class="mb-8 block text-xs font-bold uppercase tracking-[0.24em] text-black/35 dark:text-white/35">
@@ -201,7 +201,7 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
                 <button
                   type="button"
                   class="blog-post-trigger group flex items-center gap-3 text-right"
-                  data-post-button={nextItem.entry.slug}
+                  data-post-button={nextItem.entry.id}
                   data-category-group={nextItem.entry.data.category}
                 >
                   <div>

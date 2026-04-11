@@ -1,0 +1,289 @@
+---
+import { t, type Lang } from '../i18n/utils';
+import { getCollection, render } from 'astro:content';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+type BlogCategoryKey = 'frontend' | 'backend' | 'devops' | 'thoughts';
+
+const blogCategoryOrder: BlogCategoryKey[] = ['frontend', 'backend', 'devops', 'thoughts'];
+
+const categoryLabelKeys: Record<BlogCategoryKey, string> = {
+  frontend: 'blog.sidebar.frontend',
+  backend: 'blog.sidebar.backend',
+  devops: 'blog.sidebar.devops',
+  thoughts: 'blog.sidebar.thoughts',
+};
+
+const sectionIndices = ['0', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+/* Fetch & sort entries for this language */
+const entries = (await getCollection('blog', ({ data }) => data.lang === lang))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+/* Render all markdown to HTML */
+const rendered = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+
+const activeSlug = rendered[0]?.entry.slug ?? '';
+
+const categories = blogCategoryOrder
+  .map((key, i) => {
+    const items = rendered.filter(({ entry }) => entry.data.category === key);
+    return {
+      key,
+      label: t(lang, categoryLabelKeys[key]),
+      index: sectionIndices[i] || String(i),
+      items,
+    };
+  })
+  .filter((c) => c.items.length > 0);
+
+const allPostsOrdered = categories.flatMap((c) => c.items);
+---
+
+<div class="min-h-screen pt-24 pb-24 bg-white text-black dark:bg-black dark:text-white">
+  <div class="mx-auto flex max-w-[1400px] px-4 sm:px-6 lg:px-8">
+
+    <!-- ─── Left Sidebar ─── -->
+    <aside class="hidden lg:block w-[260px] shrink-0">
+      <div class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto pr-6">
+        <span class="mb-6 block text-xs font-bold uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
+          {t(lang, 'blog.badge')}
+        </span>
+
+        <div class="space-y-1">
+          {categories.map((category) => (
+            <details
+              class="blog-category group"
+              open={category.key === rendered[0]?.entry.data.category}
+              data-category-group={category.key}
+            >
+              <summary class="flex cursor-pointer list-none items-center justify-between py-2.5 px-3 text-sm font-semibold text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors marker:hidden">
+                <span class="flex items-center gap-2.5">
+                  <span class="inline-flex h-6 w-6 items-center justify-center rounded-md bg-black/[0.06] dark:bg-white/10 text-xs font-bold text-black/50 dark:text-white/50">
+                    {category.index}
+                  </span>
+                  {category.label}
+                </span>
+                <svg class="h-4 w-4 text-black/25 dark:text-white/25 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7" />
+                </svg>
+              </summary>
+              <div class="mt-1 space-y-0 pl-2 pb-1.5">
+                {category.items.map(({ entry }) => (
+                  <button
+                    type="button"
+                    class={`blog-sidebar-btn blog-post-trigger w-full rounded-lg px-3 py-1.5 text-left text-xs leading-snug transition-colors ${
+                      entry.slug === activeSlug
+                        ? 'bg-black text-white dark:bg-white dark:text-black font-semibold'
+                        : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black/80 dark:hover:text-white/80'
+                    }`}
+                    data-post-button={entry.slug}
+                    data-category-group={entry.data.category}
+                  >
+                    {entry.data.title}
+                  </button>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── Main Content ─── -->
+    <div class="min-w-0 flex-1 lg:pl-10 lg:border-l lg:border-black/[0.08] dark:lg:border-white/[0.08]">
+
+      <!-- Mobile: title + toggle -->
+      <div class="mb-6 flex items-center justify-between lg:hidden">
+        <h1 class="text-2xl font-bold tracking-tight">{t(lang, 'blog.title')}</h1>
+        <button
+          type="button"
+          id="mobile-reader-toggle"
+          class="flex items-center gap-2 rounded-xl bg-black/5 dark:bg-white/5 px-4 py-2 text-sm font-medium text-black/60 dark:text-white/60"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          {t(lang, 'blog.reader.articleList')}
+        </button>
+      </div>
+
+      <!-- Mobile panel -->
+      <div id="mobile-reader-panel" class="mb-6 hidden rounded-2xl border border-black/10 dark:border-white/10 p-4 lg:hidden">
+        <div class="space-y-1">
+          {categories.map((category) => (
+            <details class="group" open={category.key === rendered[0]?.entry.data.category}>
+              <summary class="flex cursor-pointer list-none items-center justify-between py-2 px-3 text-sm font-semibold text-black/80 dark:text-white/80 marker:hidden">
+                <span class="flex items-center gap-2.5">
+                  <span class="inline-flex h-6 w-6 items-center justify-center rounded-md bg-black/[0.06] dark:bg-white/10 text-xs font-bold text-black/50 dark:text-white/50">
+                    {category.index}
+                  </span>
+                  {category.label}
+                </span>
+                <svg class="h-4 w-4 text-black/25 dark:text-white/25 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19 9-7 7-7-7" />
+                </svg>
+              </summary>
+              <div class="mt-1 space-y-0.5 pl-2 pb-2">
+                {category.items.map(({ entry }) => (
+                  <button
+                    type="button"
+                    class={`blog-sidebar-btn blog-post-trigger w-full rounded-lg px-3 py-2.5 text-left text-sm leading-relaxed transition-colors ${
+                      entry.slug === activeSlug
+                        ? 'bg-black text-white dark:bg-white dark:text-black font-semibold'
+                        : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
+                    data-post-button={entry.slug}
+                    data-category-group={entry.data.category}
+                  >
+                    {entry.data.title}
+                  </button>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <!-- Articles -->
+      {allPostsOrdered.map(({ entry, Content }, flatIdx) => {
+        const postCategory = categories.find((c) => c.key === entry.data.category);
+        const nextItem = flatIdx < allPostsOrdered.length - 1 ? allPostsOrdered[flatIdx + 1] : null;
+        const nextCategory = nextItem ? categories.find((c) => c.key === nextItem.entry.data.category) : null;
+
+        return (
+          <article
+            class={`blog-article ${entry.slug === activeSlug ? '' : 'hidden'}`}
+            data-post-article={entry.slug}
+          >
+            {/* Section breadcrumb */}
+            <span class="mb-8 block text-xs font-bold uppercase tracking-[0.24em] text-black/35 dark:text-white/35">
+              {postCategory?.index}&nbsp;&nbsp;{postCategory?.label}
+            </span>
+
+            {/* Title */}
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+              {entry.data.title}
+            </h1>
+
+            {/* Meta line */}
+            <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-black/40 dark:text-white/40">
+              <span>{entry.data.date}</span>
+              <span class="h-1 w-1 rounded-full bg-black/20 dark:bg-white/20" />
+              <span>{entry.data.readTime} {t(lang, 'blog.min')}</span>
+            </div>
+
+            {/* Description */}
+            <p class="mt-6 max-w-3xl text-base sm:text-lg leading-8 text-black/60 dark:text-white/60">
+              {entry.data.description}
+            </p>
+
+            <hr class="my-10 border-black/[0.08] dark:border-white/[0.08]" />
+
+            {/* Markdown body */}
+            <div class="blog-prose max-w-3xl">
+              <Content />
+            </div>
+
+            {/* Bottom: next section navigation */}
+            {nextItem && (
+              <div class="mt-16 pt-8 border-t border-black/[0.08] dark:border-white/[0.08] flex justify-end">
+                <button
+                  type="button"
+                  class="blog-post-trigger group flex items-center gap-3 text-right"
+                  data-post-button={nextItem.entry.slug}
+                  data-category-group={nextItem.entry.data.category}
+                >
+                  <div>
+                    <span class="block text-xs font-bold uppercase tracking-[0.2em] text-black/35 dark:text-white/35 mb-1">
+                      {t(lang, 'blog.reader.nextSection')}
+                    </span>
+                    <span class="block text-sm font-semibold text-black/70 dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition-colors">
+                      {nextCategory?.index !== postCategory?.index
+                        ? `${nextCategory?.index}  ${nextCategory?.label} · ${nextItem.entry.data.title}`
+                        : nextItem.entry.data.title}
+                    </span>
+                  </div>
+                  <svg class="h-5 w-5 shrink-0 text-black/30 dark:text-white/30 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var sidebarBtns = Array.from(document.querySelectorAll('.blog-sidebar-btn'));
+    var allTriggers = Array.from(document.querySelectorAll('.blog-post-trigger'));
+    var articles = Array.from(document.querySelectorAll('[data-post-article]'));
+    var mobileToggle = document.getElementById('mobile-reader-toggle');
+    var mobilePanel = document.getElementById('mobile-reader-panel');
+
+    function setActivePost(postId) {
+      /* sidebar highlight */
+      sidebarBtns.forEach(function (btn) {
+        var isActive = btn.dataset.postButton === postId;
+        btn.classList.toggle('bg-black', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('dark:bg-white', isActive);
+        btn.classList.toggle('dark:text-black', isActive);
+        btn.classList.toggle('font-semibold', isActive);
+        btn.classList.toggle('text-black/50', !isActive);
+        btn.classList.toggle('dark:text-white/50', !isActive);
+        btn.classList.toggle('hover:bg-black/5', !isActive);
+        btn.classList.toggle('dark:hover:bg-white/5', !isActive);
+        btn.classList.toggle('hover:text-black/80', !isActive);
+        btn.classList.toggle('dark:hover:text-white/80', !isActive);
+      });
+
+      /* open parent <details> */
+      sidebarBtns.forEach(function (btn) {
+        if (btn.dataset.postButton === postId) {
+          var details = btn.closest('details');
+          if (details) details.open = true;
+        }
+      });
+
+      /* show / hide articles */
+      articles.forEach(function (a) {
+        a.classList.toggle('hidden', a.dataset.postArticle !== postId);
+      });
+
+      /* scroll to top so article title is visible */
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      /* close mobile panel */
+      if (mobilePanel && !mobilePanel.classList.contains('hidden')) {
+        mobilePanel.classList.add('hidden');
+      }
+    }
+
+    allTriggers.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.dataset.postButton) setActivePost(btn.dataset.postButton);
+      });
+    });
+
+    if (mobileToggle && mobilePanel) {
+      mobileToggle.addEventListener('click', function () {
+        mobilePanel.classList.toggle('hidden');
+      });
+    }
+  })();
+</script>

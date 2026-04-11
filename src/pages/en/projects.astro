@@ -1,0 +1,116 @@
+---
+import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../i18n/utils';
+
+const lang = 'en' as const;
+
+const timelineEntries = [
+  {
+    date: "2024-12",
+    title: "Personal Website Launch",
+    description: "Personal website built with Astro + Tailwind CSS, featuring bilingual support, dark mode, and deployed on GitHub Pages.",
+    tags: ["Astro", "Tailwind CSS", "TypeScript"],
+    color: "bg-blue-500",
+    icon: "globe",
+  },
+  {
+    date: "2024-09",
+    title: "Project Two",
+    description: "This is a placeholder project description. Replace with your real project details including background, tech stack, and outcomes.",
+    tags: ["React", "Node.js", "PostgreSQL"],
+    color: "bg-green-500",
+    icon: "code",
+  },
+  {
+    date: "2024-06",
+    title: "Project Three",
+    description: "Another placeholder project description. Briefly introduce the project goals, your role, and the achievements.",
+    tags: ["Python", "FastAPI", "Docker"],
+    color: "bg-purple-500",
+    icon: "package",
+  },
+  {
+    date: "2024-03",
+    title: "Project Four",
+    description: "Describe your project here. Include technical challenges, solutions, and lessons learned.",
+    tags: ["Vue.js", "Firebase", "Tailwind"],
+    color: "bg-orange-500",
+    icon: "layout",
+  },
+];
+---
+
+<Layout title={`${t(lang, 'projects.title')} - Joey's Space`} description={t(lang, 'projects.subtitle')} lang={lang}>
+  <div class="min-h-screen flex flex-col">
+    <Header lang={lang} currentPath={Astro.url.pathname} />
+    <main class="flex-grow pt-20">
+      <div class="min-h-screen pt-32 pb-20 px-6 bg-white dark:bg-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto relative">
+          <div class="text-center mb-24">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-sm font-mono text-black/60 dark:text-white/60 mb-8">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="M12 19h8"></path>
+                <path d="m4 17 6-6-6-6"></path>
+              </svg>
+              {t(lang, 'projects.badge')}
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-black dark:text-white mb-8 leading-[1.1]">
+              {t(lang, 'projects.title')}
+            </h1>
+            <p class="text-xl text-black/60 dark:text-white/60 max-w-2xl mx-auto">
+              {t(lang, 'projects.subtitle')}
+            </p>
+          </div>
+
+          <div class="relative space-y-12">
+            <div class="absolute left-8 top-0 bottom-0 w-px bg-black/10 dark:bg-white/10"></div>
+
+            {timelineEntries.map((entry) => (
+              <div class="relative pl-24 group">
+                <div class="absolute left-0 top-8 w-16 flex items-center justify-center">
+                  <div class={`w-4 h-4 rounded-full border-4 border-white dark:border-black ${entry.color} shadow-lg`}></div>
+                </div>
+
+                <div class="p-8 rounded-3xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow">
+                  <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <span class="text-xs font-mono text-black/40 dark:text-white/40 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full">
+                      {entry.date}
+                    </span>
+                    <h3 class="text-xl font-bold text-black dark:text-white">{entry.title}</h3>
+                  </div>
+
+                  <p class="text-black/60 dark:text-white/60 leading-relaxed mb-6">
+                    {entry.description}
+                  </p>
+
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {entry.tags.map((tag) => (
+                      <span class="px-3 py-1 rounded-xl bg-black/5 dark:bg-white/5 text-xs font-mono text-black/60 dark:text-white/60">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors group/link">
+                    {t(lang, 'projects.viewSource')}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform">
+                      <path d="M15 3h6v6"></path>
+                      <path d="M10 14 21 3"></path>
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer lang={lang} />
+  </div>
+</Layout>

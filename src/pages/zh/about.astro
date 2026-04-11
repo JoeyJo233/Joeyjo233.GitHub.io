@@ -1,0 +1,106 @@
+---
+import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../i18n/utils';
+
+const lang = 'zh' as const;
+
+const skills = [
+  { name: "JavaScript / TypeScript", level: 90 },
+  { name: "React / Vue / Astro", level: 85 },
+  { name: "Node.js / Python", level: 80 },
+  { name: "SQL / NoSQL", level: 75 },
+  { name: "Docker / CI/CD", level: 70 },
+];
+---
+
+<Layout title={`${t(lang, 'about.title')} - Joey's Space`} description={t(lang, 'about.subtitle')} lang={lang}>
+  <div class="min-h-screen flex flex-col">
+    <Header lang={lang} currentPath={Astro.url.pathname} />
+    <main class="flex-grow pt-20">
+      <div class="min-h-screen pt-32 pb-20 px-6 bg-white dark:bg-black relative overflow-hidden">
+        <!-- Grid background -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto relative">
+          <!-- Title -->
+          <div class="text-center mb-20">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-sm font-mono text-black/60 dark:text-white/60 mb-8">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              {t(lang, 'about.badge')}
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-black dark:text-white mb-8 leading-[1.1]">
+              {t(lang, 'about.title')}
+            </h1>
+            <p class="text-xl text-black/60 dark:text-white/60 max-w-2xl mx-auto">
+              {t(lang, 'about.subtitle')}
+            </p>
+          </div>
+
+          <!-- Bio Card -->
+          <div class="mb-12 p-8 rounded-3xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black/60 dark:text-white/60">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-black dark:text-white">{t(lang, 'about.bio.title')}</h2>
+            </div>
+            <p class="text-black/60 dark:text-white/60 leading-relaxed text-lg">
+              {t(lang, 'about.bio.content')}
+            </p>
+          </div>
+
+          <!-- Skills Card -->
+          <div class="mb-12 p-8 rounded-3xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black/60 dark:text-white/60">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-black dark:text-white">{t(lang, 'about.skills.title')}</h2>
+            </div>
+            <div class="space-y-6">
+              {skills.map((skill) => (
+                <div>
+                  <div class="flex justify-between mb-2">
+                    <span class="text-sm font-mono text-black/70 dark:text-white/70">{skill.name}</span>
+                    <span class="text-sm font-mono text-black/40 dark:text-white/40">{skill.level}%</span>
+                  </div>
+                  <div class="h-2 rounded-full bg-black/5 dark:bg-white/10 overflow-hidden">
+                    <div class="h-full rounded-full bg-black dark:bg-white transition-all duration-1000" style={`width: ${skill.level}%`}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Interests Card -->
+          <div class="p-8 rounded-3xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-12 h-12 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-black/60 dark:text-white/60">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                </svg>
+              </div>
+              <h2 class="text-2xl font-bold text-black dark:text-white">{t(lang, 'about.interests.title')}</h2>
+            </div>
+            <p class="text-black/60 dark:text-white/60 leading-relaxed text-lg">
+              {t(lang, 'about.interests.content')}
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer lang={lang} />
+  </div>
+</Layout>

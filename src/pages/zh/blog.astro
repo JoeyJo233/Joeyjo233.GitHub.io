@@ -1,0 +1,231 @@
+---
+import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { t } from '../../i18n/utils';
+
+const lang = 'zh' as const;
+
+const categories = [
+  { key: 'frontend', label: t(lang, 'blog.sidebar.frontend'), count: 3 },
+  { key: 'backend', label: t(lang, 'blog.sidebar.backend'), count: 2 },
+  { key: 'devops', label: t(lang, 'blog.sidebar.devops'), count: 1 },
+  { key: 'thoughts', label: t(lang, 'blog.sidebar.thoughts'), count: 2 },
+];
+
+const posts = [
+  {
+    title: "使用 Astro 构建现代静态网站",
+    description: "探索 Astro 框架的核心特性，了解如何利用岛屿架构构建高性能的静态网站。本文将从项目搭建到部署进行全面讲解。",
+    date: "2024-12-15",
+    category: "frontend",
+    readTime: 8,
+  },
+  {
+    title: "Tailwind CSS v4 新特性解析",
+    description: "Tailwind CSS v4 带来了全新的引擎和配置方式。本文详细介绍新版本的主要变化和迁移指南。",
+    date: "2024-11-20",
+    category: "frontend",
+    readTime: 6,
+  },
+  {
+    title: "Node.js 后端最佳实践",
+    description: "分享在 Node.js 后端开发中积累的经验和最佳实践，包括项目结构、错误处理和性能优化。",
+    date: "2024-10-10",
+    category: "backend",
+    readTime: 12,
+  },
+  {
+    title: "Docker 容器化部署指南",
+    description: "从零开始学习 Docker，了解如何将应用容器化并部署到生产环境。包含实用的 Dockerfile 示例。",
+    date: "2024-09-05",
+    category: "devops",
+    readTime: 10,
+  },
+  {
+    title: "关于技术选型的思考",
+    description: "在项目中如何做出合理的技术选型？本文分享了我在不同场景下的决策过程和经验教训。",
+    date: "2024-08-18",
+    category: "thoughts",
+    readTime: 5,
+  },
+];
+---
+
+<Layout title={`${t(lang, 'blog.title')} - Joey's Space`} description={t(lang, 'blog.subtitle')} lang={lang}>
+  <div class="min-h-screen flex flex-col">
+    <Header lang={lang} currentPath={Astro.url.pathname} />
+    <main class="flex-grow pt-20">
+      <div class="min-h-screen pt-24 pb-36 lg:pb-20 bg-white dark:bg-black">
+        <div class="max-w-[1400px] mx-auto flex">
+          <!-- Left Sidebar (desktop only) -->
+          <aside class="hidden lg:block w-64 xl:w-72 shrink-0">
+            <div class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto px-6">
+              <span class="text-xs font-bold uppercase tracking-widest text-black/40 dark:text-white/40 mb-4 block">
+                {t(lang, 'blog.sidebar.categories')}
+              </span>
+              <nav class="space-y-1">
+                {categories.map((cat, i) => (
+                  <button
+                    class={`w-full text-left px-4 py-2.5 rounded-xl text-sm transition-colors flex items-center justify-between ${
+                      i === 0
+                        ? 'bg-black dark:bg-white text-white dark:text-black font-bold'
+                        : 'text-black/60 dark:text-white/60 hover:bg-black/5 dark:hover:bg-white/5'
+                    }`}
+                    data-category={cat.key}
+                  >
+                    <span>{cat.label}</span>
+                    <span class={`text-xs ${i === 0 ? 'text-white/60 dark:text-black/60' : 'text-black/30 dark:text-white/30'}`}>
+                      {cat.count}
+                    </span>
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <div class="flex-1 min-w-0 px-4 lg:px-8">
+            <!-- Page title -->
+            <div class="mb-12">
+              <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-sm font-mono text-black/60 dark:text-white/60 mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                  <path d="M12 7v14"></path>
+                  <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+                </svg>
+                {t(lang, 'blog.badge')}
+              </div>
+              <h1 class="text-4xl md:text-5xl font-bold tracking-tighter text-black dark:text-white mb-4">
+                {t(lang, 'blog.title')}
+              </h1>
+              <p class="text-lg text-black/60 dark:text-white/60">
+                {t(lang, 'blog.subtitle')}
+              </p>
+            </div>
+
+            <!-- Blog posts -->
+            <div class="space-y-6">
+              {posts.map((post) => (
+                <article data-category={post.category} class="p-6 rounded-2xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm hover:shadow-lg transition-shadow group cursor-pointer">
+                  <div class="flex flex-wrap items-center gap-3 mb-3">
+                    <span class="text-xs font-mono text-black/40 dark:text-white/40">
+                      {post.date}
+                    </span>
+                    <span class="w-1 h-1 rounded-full bg-black/20 dark:bg-white/20"></span>
+                    <span class="text-xs text-black/40 dark:text-white/40">
+                      {post.readTime} {t(lang, 'blog.min')}
+                    </span>
+                    <span class="px-2 py-0.5 rounded-lg bg-black/5 dark:bg-white/5 text-xs font-mono text-black/50 dark:text-white/50">
+                      {categories.find(c => c.key === post.category)?.label}
+                    </span>
+                  </div>
+                  <h2 class="text-xl font-bold text-black dark:text-white mb-2 group-hover:text-black/80 dark:group-hover:text-white/80 transition-colors">
+                    {post.title}
+                  </h2>
+                  <p class="text-black/50 dark:text-white/50 leading-relaxed mb-4">
+                    {post.description}
+                  </p>
+                  <span class="inline-flex items-center gap-1 text-sm font-medium text-black/40 dark:text-white/40 group-hover:text-black dark:group-hover:text-white transition-colors">
+                    {t(lang, 'blog.readMore')}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform">
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
+                    </svg>
+                  </span>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <!-- Right sidebar placeholder (xl only) -->
+          <aside class="hidden xl:block w-48 shrink-0"></aside>
+        </div>
+
+        <!-- Mobile bottom bar -->
+        <div class="fixed bottom-0 inset-x-0 lg:hidden z-40 bg-white/80 dark:bg-black/80 backdrop-blur-xl border-t border-black/10 dark:border-white/10">
+          <div class="flex items-center justify-around py-3 px-6">
+            <button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-black/5 dark:bg-white/5 text-sm font-medium text-black/60 dark:text-white/60" id="mobile-categories-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+                <path d="M3 12h18"></path>
+                <path d="M3 6h18"></path>
+                <path d="M3 18h18"></path>
+              </svg>
+              {t(lang, 'blog.sidebar.categories')}
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer lang={lang} />
+  </div>
+</Layout>
+
+<script is:inline>
+  (function () {
+    const buttons = document.querySelectorAll('[data-category]');
+    const categoryButtons = Array.from(buttons).filter(b => b.tagName === 'BUTTON');
+    const articles = Array.from(buttons).filter(a => a.tagName === 'ARTICLE');
+    let activeCategory = null;
+
+    function setActive(btn) {
+      categoryButtons.forEach(b => {
+        b.classList.remove('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black', 'font-bold');
+        b.classList.add('text-black/60', 'dark:text-white/60', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+        const count = b.querySelector('span:last-child');
+        if (count) { count.classList.remove('text-white/60', 'dark:text-black/60'); count.classList.add('text-black/30', 'dark:text-white/30'); }
+      });
+      btn.classList.add('bg-black', 'dark:bg-white', 'text-white', 'dark:text-black', 'font-bold');
+      btn.classList.remove('text-black/60', 'dark:text-white/60', 'hover:bg-black/5', 'dark:hover:bg-white/5');
+      const count = btn.querySelector('span:last-child');
+      if (count) { count.classList.add('text-white/60', 'dark:text-black/60'); count.classList.remove('text-black/30', 'dark:text-white/30'); }
+    }
+
+    function filterPosts(category) {
+      articles.forEach(a => {
+        if (!category || a.dataset.category === category) {
+          a.style.display = '';
+        } else {
+          a.style.display = 'none';
+        }
+      });
+    }
+
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category;
+        if (activeCategory === cat) {
+          activeCategory = null;
+          setActive(categoryButtons[0]);
+          filterPosts(categoryButtons[0].dataset.category);
+          activeCategory = categoryButtons[0].dataset.category;
+        } else {
+          activeCategory = cat;
+          setActive(btn);
+          filterPosts(cat);
+        }
+      });
+    });
+
+    // Mobile categories
+    const mobileBtn = document.getElementById('mobile-categories-btn');
+    if (mobileBtn) {
+      let panel = null;
+      mobileBtn.addEventListener('click', () => {
+        if (panel) { panel.remove(); panel = null; return; }
+        panel = document.createElement('div');
+        panel.className = 'fixed bottom-16 inset-x-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-black/10 dark:border-white/10 p-4 space-y-1';
+        categoryButtons.forEach(btn => {
+          const clone = btn.cloneNode(true);
+          clone.addEventListener('click', () => {
+            btn.click();
+            panel.remove();
+            panel = null;
+          });
+          panel.appendChild(clone);
+        });
+        document.body.appendChild(panel);
+      });
+    }
+  })();
+</script>

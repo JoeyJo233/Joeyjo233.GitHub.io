@@ -82,6 +82,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     "blog.sort.desc": "降序",
     "blog.reader.articleList": "文章列表",
     "blog.reader.nextSection": "下一节 →",
+    "blog.reader.onThisPage": "本文目录",
 
     // Contact Page
     "contact.badge": "保持联系",
@@ -179,6 +180,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     "blog.sort.desc": "Desc",
     "blog.reader.articleList": "Articles",
     "blog.reader.nextSection": "Next →",
+    "blog.reader.onThisPage": "On This Page",
 
     // Contact Page
     "contact.badge": "Get in Touch",

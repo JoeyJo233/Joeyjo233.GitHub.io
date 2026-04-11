@@ -25,11 +25,11 @@ const sectionIndices = ['0', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];
 const entries = (await getCollection('blog', ({ data }) => data.lang === lang))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 
-/* Render all markdown to HTML */
+/* Render all markdown to HTML, capturing headings for TOC */
 const rendered = await Promise.all(
   entries.map(async (entry) => {
-    const { Content } = await render(entry);
-    return { entry, Content };
+    const { Content, headings } = await render(entry);
+    return { entry, Content, headings };
   })
 );
 
@@ -224,6 +224,35 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
         );
       })}
     </div>
+
+    <!-- ─── Right TOC Sidebar ─── -->
+    <aside class="hidden xl:block w-[200px] shrink-0">
+      <div class="sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto pl-10 border-l border-black/[0.08] dark:border-white/[0.08]">
+        <span class="mb-5 block text-xs font-bold uppercase tracking-[0.3em] text-black/40 dark:text-white/40">
+          {t(lang, 'blog.reader.onThisPage')}
+        </span>
+        {allPostsOrdered.map(({ entry, headings }) => (
+          <nav
+            class={`toc-nav ${entry.id === activeSlug ? '' : 'hidden'}`}
+            data-toc-for={entry.id}
+          >
+            {headings
+              .filter((h) => h.depth >= 2 && h.depth <= 3)
+              .map((h) => (
+                <a
+                  href={`#${h.slug}`}
+                  class={`toc-link block py-1 text-xs leading-snug transition-colors border-l-2 border-transparent text-black/40 dark:text-white/40 hover:text-black/70 dark:hover:text-white/70 ${h.depth === 3 ? 'pl-5' : 'pl-2'}`}
+                  data-heading-slug={h.slug}
+                  data-heading-depth={h.depth}
+                >
+                  {h.text}
+                </a>
+              ))}
+          </nav>
+        ))}
+      </div>
+    </aside>
+
   </div>
 </div>
 
@@ -235,6 +264,110 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
     var mobileToggle = document.getElementById('mobile-reader-toggle');
     var mobilePanel = document.getElementById('mobile-reader-panel');
 
+    /* ── TOC state ── */
+    var currentScrollHandler = null;
+    var currentTocNav = null;
+    var manualActiveTocId = null;
+    var manualActiveTimer = null;
+
+    function setActiveTocLink(tocNav, activeId) {
+      if (!tocNav || !activeId) return;
+      var links = Array.from(tocNav.querySelectorAll('.toc-link'));
+      links.forEach(function (link) {
+        var isActive = link.dataset.headingSlug === activeId;
+        link.classList.toggle('border-black', isActive);
+        link.classList.toggle('dark:border-white', isActive);
+        link.classList.toggle('text-black', isActive);
+        link.classList.toggle('dark:text-white', isActive);
+        link.classList.toggle('font-medium', isActive);
+        link.classList.toggle('border-transparent', !isActive);
+        link.classList.toggle('text-black/40', !isActive);
+        link.classList.toggle('dark:text-white/40', !isActive);
+      });
+    }
+
+    function setupToc(postId) {
+      /* Switch visible TOC nav */
+      var allTocNavs = Array.from(document.querySelectorAll('[data-toc-for]'));
+      allTocNavs.forEach(function (nav) {
+        nav.classList.toggle('hidden', nav.dataset.tocFor !== postId);
+      });
+
+      /* Remove previous scroll handler and reset any manual override */
+      if (currentScrollHandler) {
+        window.removeEventListener('scroll', currentScrollHandler);
+        currentScrollHandler = null;
+      }
+      if (manualActiveTimer) { clearTimeout(manualActiveTimer); manualActiveTimer = null; }
+      manualActiveTocId = null;
+
+      currentTocNav = document.querySelector('[data-toc-for="' + postId + '"]');
+      var article = document.querySelector('[data-post-article="' + postId + '"]');
+      if (!article || !currentTocNav) return;
+
+      var headings = Array.from(article.querySelectorAll('h2[id], h3[id]'));
+      if (!headings.length) return;
+
+      function getActiveHeadingId() {
+        var OFFSET = 112;
+        var scrollY = window.scrollY;
+        var viewH = window.innerHeight;
+        var docH = document.documentElement.scrollHeight;
+        /* At page bottom, headings near the end can never scroll above the OFFSET
+           line — expand the threshold to the viewport bottom so they still activate. */
+        var atBottom = scrollY + viewH >= docH - 10;
+        var threshold = atBottom ? scrollY + viewH : scrollY + OFFSET;
+
+        var active = headings[0].id;
+        for (var i = 0; i < headings.length; i++) {
+          var absTop = headings[i].getBoundingClientRect().top + scrollY;
+          if (absTop <= threshold) {
+            active = headings[i].id;
+          } else if (!atBottom) {
+            break; /* short-circuit only in normal (non-bottom) mode */
+          }
+        }
+        return active;
+      }
+
+      function onScroll() {
+        if (manualActiveTocId) return; /* paused while a click is in flight */
+        setActiveTocLink(currentTocNav, getActiveHeadingId());
+      }
+
+      currentScrollHandler = onScroll;
+      window.addEventListener('scroll', currentScrollHandler, { passive: true });
+
+      /* Initialize with first heading active */
+      setActiveTocLink(currentTocNav, headings[0].id);
+    }
+
+    /* ── TOC link click: immediately highlight, scroll, then re-enable spy ── */
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('.toc-link');
+      if (!link) return;
+      e.preventDefault();
+      var slug = link.dataset.headingSlug;
+      var target = document.getElementById(slug);
+      if (!target || !currentTocNav) return;
+
+      /* Reflect click in TOC right away, before scroll settles */
+      manualActiveTocId = slug;
+      if (manualActiveTimer) clearTimeout(manualActiveTimer);
+      setActiveTocLink(currentTocNav, slug);
+
+      /* Scroll with sticky-header offset */
+      var top = target.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+
+      /* Hand control back to scroll spy after animation (~600 ms) */
+      manualActiveTimer = setTimeout(function () {
+        manualActiveTocId = null;
+        manualActiveTimer = null;
+      }, 600);
+    });
+
+    /* ── Article switching ── */
     function setActivePost(postId) {
       /* sidebar highlight */
       sidebarBtns.forEach(function (btn) {
@@ -272,6 +405,9 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
       if (mobilePanel && !mobilePanel.classList.contains('hidden')) {
         mobilePanel.classList.add('hidden');
       }
+
+      /* update TOC */
+      setupToc(postId);
     }
 
     allTriggers.forEach(function (btn) {
@@ -284,6 +420,14 @@ const allPostsOrdered = categories.flatMap((c) => c.items);
       mobileToggle.addEventListener('click', function () {
         mobilePanel.classList.toggle('hidden');
       });
+    }
+
+    /* ── Initialize TOC for the first visible article ── */
+    var firstVisible = articles.find(function (a) {
+      return !a.classList.contains('hidden');
+    });
+    if (firstVisible) {
+      setupToc(firstVisible.dataset.postArticle);
     }
   })();
 </script>

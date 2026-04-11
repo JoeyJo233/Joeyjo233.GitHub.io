@@ -67,6 +67,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     "blog.title": "技术博客",
     "blog.subtitle": "分享我的技术心得、学习笔记和行业观察。",
     "blog.sidebar.categories": "文章分类",
+    "blog.sidebar.all": "全部",
     "blog.sidebar.frontend": "前端开发",
     "blog.sidebar.backend": "后端技术",
     "blog.sidebar.devops": "DevOps",
@@ -155,6 +156,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     "blog.subtitle":
       "Sharing my tech insights, study notes, and industry observations.",
     "blog.sidebar.categories": "Categories",
+    "blog.sidebar.all": "All",
     "blog.sidebar.frontend": "Frontend",
     "blog.sidebar.backend": "Backend",
     "blog.sidebar.devops": "DevOps",

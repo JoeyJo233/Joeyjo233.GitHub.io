@@ -8,6 +8,7 @@ import { t } from '../../i18n/utils';
 const lang = 'zh' as const;
 
 const categories = [
+  { key: 'all', label: t(lang, 'blog.sidebar.all'), count: 5 },
   { key: 'frontend', label: t(lang, 'blog.sidebar.frontend'), count: 3 },
   { key: 'backend', label: t(lang, 'blog.sidebar.backend'), count: 2 },
   { key: 'devops', label: t(lang, 'blog.sidebar.devops'), count: 1 },
@@ -183,7 +184,7 @@ const posts = [
 
     function filterPosts(category) {
       articles.forEach(a => {
-        if (!category || a.dataset.category === category) {
+        if (!category || category === 'all' || a.dataset.category === category) {
           a.style.display = '';
         } else {
           a.style.display = 'none';

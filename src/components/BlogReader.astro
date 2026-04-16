@@ -8,15 +8,18 @@ interface Props {
 
 const { lang } = Astro.props;
 
-type BlogCategoryKey = 'frontend' | 'backend' | 'devops' | 'thoughts';
+type BlogCategoryKey = 'frontend' | 'backend' | 'devops' | 'thoughts' | 'harness-engineering' | 'hermes-agent' | 'openclaw';
 
-const blogCategoryOrder: BlogCategoryKey[] = ['frontend', 'backend', 'devops', 'thoughts'];
+const blogCategoryOrder: BlogCategoryKey[] = ['frontend', 'backend', 'devops', 'thoughts', 'harness-engineering', 'hermes-agent', 'openclaw'];
 
 const categoryLabelKeys: Record<BlogCategoryKey, string> = {
   frontend: 'blog.sidebar.frontend',
   backend: 'blog.sidebar.backend',
   devops: 'blog.sidebar.devops',
   thoughts: 'blog.sidebar.thoughts',
+  'harness-engineering': 'blog.sidebar.harness-engineering',
+  'hermes-agent': 'blog.sidebar.hermes-agent',
+  openclaw: 'blog.sidebar.openclaw',
 };
 
 const sectionIndices = ['0', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];

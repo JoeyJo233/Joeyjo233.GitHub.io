@@ -9,36 +9,54 @@ const lang = 'zh' as const;
 
 const timelineEntries = [
   {
-    date: "2024-12",
-    title: "个人主页上线",
-    description: "使用 Astro + Tailwind CSS 构建的个人网站，支持中英双语、暗黑模式，部署在 GitHub Pages。",
-    tags: ["Astro", "Tailwind CSS", "TypeScript"],
+    date: "2025",
+    title: "AI 虚拟公司：自主多智能体媒体生产流水线",
+    description: "基于 OpenClaw 设计"虚拟公司"多智能体系统，包含四个专职 Agent：负责任务编排的 Manager、负责 AI 行业新闻抓取的 News、负责语音合成的 Voice（Qwen3 TTS）以及负责视频制作的 Editor（Remotion）。实现从新闻抓取到跨平台（YouTube、TikTok、X）自动发布的全链路自动化，系统稳定运行 1 个月+，累计产出并发布 20+ 期内容。",
+    tags: ["OpenClaw", "多智能体系统", "Python", "Qwen3 TTS", "Remotion", "LLM"],
     color: "bg-blue-500",
-    icon: "globe",
   },
   {
-    date: "2024-09",
-    title: "项目二",
-    description: "这是一个占位项目描述。你可以替换为你的真实项目内容，包括项目背景、技术栈和成果。",
-    tags: ["React", "Node.js", "PostgreSQL"],
-    color: "bg-green-500",
-    icon: "code",
-  },
-  {
-    date: "2024-06",
-    title: "项目三",
-    description: "这是另一个占位项目描述。简要介绍项目的目标、你在其中的角色以及取得的成果。",
-    tags: ["Python", "FastAPI", "Docker"],
+    date: "2024",
+    title: "硕士论文：基于 AoMA 的无人机辅助通信系统 DRL 优化",
+    description: "提出将 Age of Missed Alarm (AoMA) 作为衡量漏检告警代价的语义通信指标引入无人机远程监测场景，并将调度问题建模为 MDP。搭建自定义仿真平台，对 DDQN 策略与 Greedy 基线进行各 100 轮对比实验；在高告警密度条件下，DDQN 将平均 AoMA 降低 6.4%，全程零失败，验证了 AoMA 在真实无人机系统中作为语义优化目标的可行性。",
+    tags: ["PyTorch", "深度强化学习", "无人机", "DDQN", "Python", "MDP"],
     color: "bg-purple-500",
-    icon: "package",
   },
   {
-    date: "2024-03",
-    title: "项目四",
-    description: "在这里描述你的项目。可以包含技术挑战、解决方案和学到的经验教训。",
-    tags: ["Vue.js", "Firebase", "Tailwind"],
+    date: "2024",
+    title: "IoT 传感器数据集成系统",
+    description: "基于 Java（Spring Boot）搭建生产者/消费者微服务 IoT 数据流水线，集成 Kafka 事件缓冲、Redis 实时缓存与 MongoDB 持久化存储，使生产者阻塞时间较同步写入降低 80%。模拟数据库故障后成功恢复 10,000+ 条消息，零丢失验证系统韧性。配套 GitHub Actions CI/CD 流水线与 Trivy 镜像漏洞扫描。",
+    tags: ["Java", "Spring Boot", "Apache Kafka", "Redis", "MongoDB", "Docker", "CI/CD"],
+    color: "bg-green-500",
+  },
+  {
+    date: "2023–2024",
+    title: "VAST 挑战赛：多模态欺诈检测与可视化分析",
+    description: "针对多模态数据中的潜在欺诈行为，分析并可视化 50 万+ 条信用卡/会员卡交易记录与车辆 GPS 轨迹数据。基于 Plotly Dash 构建交互式仪表盘，并使用 Dash Cytoscape 搭建覆盖 100+ 个实体、2,000+ 条关系的社交网络图，最终锁定关键欺诈节点与交易链路。",
+    tags: ["Python", "Pandas", "Plotly Dash", "QGIS", "数据可视化", "图分析"],
     color: "bg-orange-500",
-    icon: "layout",
+    link: "https://github.com/JoeyJo233/VAST_Challenge_2021_MC2",
+  },
+  {
+    date: "2024",
+    title: "Didier's Tomb：恐怖 VR 游戏（Unreal Engine 5）",
+    description: "三人团队基于 UE5.4 开发完整恐怖 VR 游戏，包含 Gothic 风格大教堂与地牢两大场景、AI 敌人行为树（巡逻/追击/攻击）、VR 枪械交互及 Lumen 动态光照与体积雾。系统性应用 Gestalt 原则进行关卡设计，并在真实用户试玩后针对可访问性问题持续迭代。最终在 Norrköping Visualization Center 完成课程汇报演示。",
+    tags: ["Unreal Engine 5", "VR", "C++", "行为树", "Lumen", "Nanite", "Azure DevOps"],
+    color: "bg-red-500",
+  },
+  {
+    date: "2024",
+    title: "Pixel Rush：基于 Godot 的 2D 平台跳跃游戏",
+    description: "基于 Godot Engine 开发像素风 2D 平台跳跃游戏，含 3 个风格各异的关卡，融合收集、解谜与角色成长机制。系统性应用 HCI 原则构建低侵入式教程（文字提示 + 音效 + 宠物引导），并面向 20+ 名用户开展结构化试玩调研，针对手感与理解障碍持续迭代优化。",
+    tags: ["Godot Engine", "GDScript", "Aseprite", "HCI", "游戏设计"],
+    color: "bg-yellow-500",
+  },
+  {
+    date: "2021–2023",
+    title: "国家级科创项目：基于 DRL 优化无人机辅助 IoT 网络性能",
+    description: "针对无人机辅助 IoT 网络中传统方法难以动态兼顾数据新鲜度与安全约束的问题，设计深度强化学习（DRL）算法用于导航与资源调度，将安全约束违规率降低 40%，AoI 较基准提升 23%。领导 5 人研究团队完成算法设计、仿真环境开发与性能验证，成果发表于 IEEE Wireless Communications Letters。",
+    tags: ["PyTorch", "OpenAI Gym", "深度强化学习", "无人机", "IoT", "IEEE 论文"],
+    color: "bg-pink-500",
   },
 ];
 ---
@@ -106,14 +124,16 @@ const timelineEntries = [
                   </div>
 
                   <!-- Link -->
-                  <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors group/link">
-                    {t(lang, 'projects.viewSource')}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform">
-                      <path d="M15 3h6v6"></path>
-                      <path d="M10 14 21 3"></path>
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    </svg>
-                  </a>
+                  {entry.link && (
+                    <a href={entry.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors group/link">
+                      {t(lang, 'projects.viewSource')}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform">
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14 21 3"></path>
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      </svg>
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

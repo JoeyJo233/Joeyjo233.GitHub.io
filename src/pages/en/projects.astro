@@ -9,36 +9,54 @@ const lang = 'en' as const;
 
 const timelineEntries = [
   {
-    date: "2024-12",
-    title: "Personal Website Launch",
-    description: "Personal website built with Astro + Tailwind CSS, featuring bilingual support, dark mode, and deployed on GitHub Pages.",
-    tags: ["Astro", "Tailwind CSS", "TypeScript"],
+    date: "2025",
+    title: "AI Virtual Company — Autonomous Multi-Agent Media Pipeline",
+    description: "Architected a \"virtual company\" multi-agent system (OpenClaw) with four specialized agents: Manager for orchestration, News for automated AI-industry scraping, Voice for audio synthesis (Qwen3 TTS), and Editor for video assembly (Remotion). Automated end-to-end publishing to YouTube, TikTok, and X — ran stably for 1+ month producing 20+ episodes.",
+    tags: ["OpenClaw", "Multi-Agent Systems", "Python", "Qwen3 TTS", "Remotion", "LLM"],
     color: "bg-blue-500",
-    icon: "globe",
   },
   {
-    date: "2024-09",
-    title: "Project Two",
-    description: "This is a placeholder project description. Replace with your real project details including background, tech stack, and outcomes.",
-    tags: ["React", "Node.js", "PostgreSQL"],
-    color: "bg-green-500",
-    icon: "code",
-  },
-  {
-    date: "2024-06",
-    title: "Project Three",
-    description: "Another placeholder project description. Briefly introduce the project goals, your role, and the achievements.",
-    tags: ["Python", "FastAPI", "Docker"],
+    date: "2024",
+    title: "Master's Thesis — DRL-based AoMA Optimization for UAV Systems",
+    description: "Proposed Age of Missed Alarm (AoMA) as a semantic communication metric for UAV remote surveillance, formulated as an MDP. Built a custom simulation platform and evaluated a DDQN policy against a Greedy baseline across 100 runs each; DDQN reduced average AoMA by 6.4% under alarm-intensive conditions with zero failures.",
+    tags: ["PyTorch", "Deep Reinforcement Learning", "UAV", "DDQN", "Python", "MDP"],
     color: "bg-purple-500",
-    icon: "package",
   },
   {
-    date: "2024-03",
-    title: "Project Four",
-    description: "Describe your project here. Include technical challenges, solutions, and lessons learned.",
-    tags: ["Vue.js", "Firebase", "Tailwind"],
+    date: "2024",
+    title: "IoT Sensor Data Integration System",
+    description: "Built a Producer/Consumer microservices pipeline (Java Spring Boot) with Kafka buffering, Redis real-time caching, and MongoDB persistence. Reduced producer-side blocking by 80% vs. synchronous writes; recovered 10,000+ buffered messages after a simulated DB outage with zero loss. Full CI/CD via GitHub Actions with Trivy image vulnerability scanning.",
+    tags: ["Java", "Spring Boot", "Apache Kafka", "Redis", "MongoDB", "Docker", "CI/CD"],
+    color: "bg-green-500",
+  },
+  {
+    date: "2023–2024",
+    title: "VAST Challenge — Multimodal Fraud Detection & Visual Analytics",
+    description: "Analyzed 500,000+ credit card transactions and GPS trajectories to detect potential fraud. Built interactive dashboards with Plotly Dash and a social-network graph (Dash Cytoscape) covering 100+ entities and 2,000+ relationships, ultimately isolating key fraud nodes and transaction chains.",
+    tags: ["Python", "Pandas", "Plotly Dash", "QGIS", "Data Visualization", "Graph Analysis"],
     color: "bg-orange-500",
-    icon: "layout",
+    link: "https://github.com/JoeyJo233/VAST_Challenge_2021_MC2",
+  },
+  {
+    date: "2024",
+    title: "Didier's Tomb — Horror VR Game (Unreal Engine 5)",
+    description: "Co-developed a complete horror VR game in a 3-person team using UE5.4, featuring a Gothic cathedral, a dungeon, AI enemy behavior trees (patrol/chase/attack), VR firearm mechanics, and Lumen dynamic lighting. Applied Gestalt principles to level design and iterated on accessibility after real-user playtesting. Demonstrated at Norrkoping Visualization Center.",
+    tags: ["Unreal Engine 5", "VR", "C++", "Behavior Tree", "Lumen", "Nanite", "Azure DevOps"],
+    color: "bg-red-500",
+  },
+  {
+    date: "2024",
+    title: "Pixel Rush — 2D Platformer (Godot Engine)",
+    description: "Developed a pixel-art 2D platformer with 3 stylistically distinct levels combining collection, puzzle-solving, and character progression. Applied HCI principles to build a low-friction tutorial system (text hints + audio cues + pet companion). Conducted structured playtesting with 20+ participants and iterated on control feel and comprehension barriers.",
+    tags: ["Godot Engine", "GDScript", "Aseprite", "HCI", "Game Design"],
+    color: "bg-yellow-500",
+  },
+  {
+    date: "2021–2023",
+    title: "DRL for UAV-assisted IoT Networks (National Innovation Project)",
+    description: "Designed a deep reinforcement learning algorithm for UAV navigation and resource scheduling in dynamic IoT networks, reducing safety-constraint violations by 40% and improving AoI by 23% over baseline. Led a 5-member research team across algorithm design, simulation, and validation. Results published in IEEE Wireless Communications Letters.",
+    tags: ["PyTorch", "OpenAI Gym", "Deep Reinforcement Learning", "UAV", "IoT", "IEEE Publication"],
+    color: "bg-pink-500",
   },
 ];
 ---
@@ -96,14 +114,16 @@ const timelineEntries = [
                     ))}
                   </div>
 
-                  <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors group/link">
-                    {t(lang, 'projects.viewSource')}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform">
-                      <path d="M15 3h6v6"></path>
-                      <path d="M10 14 21 3"></path>
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    </svg>
-                  </a>
+                  {entry.link && (
+                    <a href={entry.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors group/link">
+                      {t(lang, 'projects.viewSource')}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform">
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14 21 3"></path>
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      </svg>
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

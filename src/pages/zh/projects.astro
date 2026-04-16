@@ -11,50 +11,101 @@ const timelineEntries = [
   {
     date: "2025",
     title: "AI 虚拟公司：自主多智能体媒体生产流水线",
-    description: "基于 OpenClaw 设计「虚拟公司」多智能体系统，包含四个专职 Agent：负责任务编排的 Manager、负责 AI 行业新闻抓取的 News、负责语音合成的 Voice（Qwen3 TTS）以及负责视频制作的 Editor（Remotion）。实现从新闻抓取到跨平台（YouTube、TikTok、X）自动发布的全链路自动化，系统稳定运行 1 个月+，累计产出并发布 20+ 期内容。",
+    role: "创建者",
+    location: "瑞典隆德",
+    period: "2025年",
+    bullets: [
+      "基于 OpenClaw 设计并实现一个「虚拟公司」多智能体系统，包含四个专职智能体：负责任务编排的 Manager Agent、负责抓取 AI 行业新闻的 News Agent、负责语音合成的 Voice Agent（Qwen3 TTS）以及负责视频合成的 Editor Agent（Remotion）。",
+      "设计多智能体间的通信协议、任务路由与状态交接机制，将选题、资讯抓取、文稿生成、语音合成与视频制作拆解为可独立执行的流水线节点；通过明确职责边界与失败隔离策略，提升端到端自动化流程的稳定性与可维护性。",
+      "将内容自动发布流水线接入 YouTube、TikTok 与 X，实现从新闻抓取、文稿生成、语音合成、视频渲染到跨平台发布的端到端自动化；系统稳定运行 1 个月+，累计产出并发布 20+ 期内容，完成了 agentic workflow 的真实生产环境验证。",
+    ],
     tags: ["OpenClaw", "多智能体系统", "Python", "Qwen3 TTS", "Remotion", "LLM"],
     color: "bg-blue-500",
   },
   {
     date: "2024",
-    title: "硕士论文：基于 AoMA 的无人机辅助通信系统 DRL 优化",
-    description: "提出将 Age of Missed Alarm (AoMA) 作为衡量漏检告警代价的语义通信指标引入无人机远程监测场景，并将调度问题建模为 MDP。搭建自定义仿真平台，对 DDQN 策略与 Greedy 基线进行各 100 轮对比实验；在高告警密度条件下，DDQN 将平均 AoMA 降低 6.4%，全程零失败，验证了 AoMA 在真实无人机系统中作为语义优化目标的可行性。",
+    title: "基于 AoMA 的无人机辅助通信系统优化研究（硕士论文）",
+    role: "研究者",
+    location: "瑞典林雪平",
+    period: "2024年 – 2026年",
+    bullets: [
+      "提出将 Age of Missed Alarm (AoMA) 引入 UAV 远程监测场景。AoMA 作为一种语义通信指标，关注漏检告警带来的代价，而不仅是传输时延；进一步将调度问题形式化为马尔可夫决策过程（MDP），使 UAV 在巡航、告警响应与充电之间进行动态权衡，并满足严格电池约束。",
+      "搭建自定义仿真平台，模拟两个远程站点的随机告警生成过程，可在高告警密度与低告警密度环境下对不同调度策略进行可复现评估。",
+      "实现并评估 DDQN 策略与确定性 Greedy 基线的对比实验（各 100 轮）；在高告警密度场景下，DDQN 将平均 AoMA 降低 6.4%（221.89 vs. 236.96），全程零失败，验证了 AoMA 作为真实 UAV 系统语义优化目标的可行性。",
+    ],
     tags: ["PyTorch", "深度强化学习", "无人机", "DDQN", "Python", "MDP"],
     color: "bg-purple-500",
   },
   {
     date: "2024",
     title: "IoT 传感器数据集成系统",
-    description: "基于 Java（Spring Boot）搭建生产者/消费者微服务 IoT 数据流水线，集成 Kafka 事件缓冲、Redis 实时缓存与 MongoDB 持久化存储，使生产者阻塞时间较同步写入降低 80%。模拟数据库故障后成功恢复 10,000+ 条消息，零丢失验证系统韧性。配套 GitHub Actions CI/CD 流水线与 Trivy 镜像漏洞扫描。",
+    role: "开发者",
+    location: "瑞典林雪平",
+    period: "2024年1月 – 2024年4月",
+    bullets: [
+      "基于 Java（Spring Boot）搭建采用生产者/消费者微服务架构的 IoT 传感器数据流水线，在流量高峰与数据库变慢场景下仍保持数据接入响应性，使生产者侧阻塞时间相较同步数据库写入降低 80%。",
+      "集成 Apache Kafka 处理高频事件缓冲，并结合 Redis 实现实时缓存、MongoDB 实现持久化存储；通过模拟数据库故障，成功恢复 10,000+ 条缓冲消息，测试中未出现消息丢失，验证了系统韧性。",
+      "基于 GitHub Actions 构建 CI/CD 工作流，自动执行单元测试、构建 Docker 镜像、使用 Trivy 扫描已知漏洞，并将版本化镜像发布到 GitHub Container Registry（GHCR）。",
+    ],
     tags: ["Java", "Spring Boot", "Apache Kafka", "Redis", "MongoDB", "Docker", "CI/CD"],
     color: "bg-green-500",
   },
   {
     date: "2023–2024",
     title: "VAST 挑战赛：多模态欺诈检测与可视化分析",
-    description: "针对多模态数据中的潜在欺诈行为，分析并可视化 50 万+ 条信用卡/会员卡交易记录与车辆 GPS 轨迹数据。基于 Plotly Dash 构建交互式仪表盘，并使用 Dash Cytoscape 搭建覆盖 100+ 个实体、2,000+ 条关系的社交网络图，最终锁定关键欺诈节点与交易链路。",
+    role: "数据分析师",
+    location: "瑞典诺尔雪平",
+    period: "2023年12月 – 2024年12月",
+    bullets: [
+      "针对多模态数据中的潜在欺诈行为检测任务，分析并可视化 50万+ 条信用卡/会员卡交易记录与车辆轨迹数据，构建交互式分析系统，识别出 50+ 笔可疑交易。",
+      "使用 Pandas 清洗 1万+ 条异常记录，并借助 QGIS 分析 500+ 条 GPS 轨迹，生成详细时空移动地图，降低噪声数据对后续图分析的干扰并提高输入数据质量。",
+      "基于 Plotly Dash 构建交互式仪表盘，并使用 Dash Cytoscape 搭建社交关系网络，覆盖 100+ 个实体与 2,000+ 条关系，最终锁定关键欺诈节点与交易链路。",
+    ],
     tags: ["Python", "Pandas", "Plotly Dash", "QGIS", "数据可视化", "图分析"],
     color: "bg-orange-500",
     link: "https://github.com/JoeyJo233/VAST_Challenge_2021_MC2",
   },
   {
     date: "2024",
-    title: "Didier's Tomb：恐怖 VR 游戏（Unreal Engine 5）",
-    description: "三人团队基于 UE5.4 开发完整恐怖 VR 游戏，包含 Gothic 风格大教堂与地牢两大场景、AI 敌人行为树（巡逻/追击/攻击）、VR 枪械交互及 Lumen 动态光照与体积雾。系统性应用 Gestalt 原则进行关卡设计，并在真实用户试玩后针对可访问性问题持续迭代。最终在 Norrköping Visualization Center 完成课程汇报演示。",
+    title: "Didier's Tomb：恐怖 VR 游戏开发",
+    role: "团队成员（3人）",
+    location: "瑞典诺尔雪平",
+    period: "2024年1月 – 2025年4月",
+    bullets: [
+      "三人团队基于 Unreal Engine 5.4 开发完整恐怖 VR 游戏 Didier's Tomb，包含 Gothic 风格大教堂与地牢两大场景、交互解谜机制及 AI 驱动敌人；最终在 Norrköping Visualization Center 完成课程汇报演示。",
+      "使用 UE5 Behavior Tree 实现 AI 敌人（僵尸）的三态逻辑（巡逻 / 追击 / 攻击），结合方向性音效触发与 VR 枪械交互，增强玩家沉浸感与紧张氛围。",
+      "将 Gestalt 原则系统性应用于关卡设计，通过光源引导、物件位置与吸附反馈（snapping）降低谜题理解门槛；并在真实用户试玩后针对高度适配与触发盒大小进行无障碍迭代，提升游戏可接近性。",
+      "基于 Lumen 构建动态光照与体积雾营造恐怖氛围，结合 Nanite 高精度 Gothic 建筑资产与自定义 SkyBox，并使用 Azure DevOps 管理三人协作版本控制流程。",
+    ],
     tags: ["Unreal Engine 5", "VR", "C++", "行为树", "Lumen", "Nanite", "Azure DevOps"],
     color: "bg-red-500",
   },
   {
     date: "2024",
     title: "Pixel Rush：基于 Godot 的 2D 平台跳跃游戏",
-    description: "基于 Godot Engine 开发像素风 2D 平台跳跃游戏，含 3 个风格各异的关卡，融合收集、解谜与角色成长机制。系统性应用 HCI 原则构建低侵入式教程（文字提示 + 音效 + 宠物引导），并面向 20+ 名用户开展结构化试玩调研，针对手感与理解障碍持续迭代优化。",
+    role: "游戏开发者",
+    location: "瑞典林雪平",
+    period: "2024年6月 – 2024年10月",
+    bullets: [
+      "基于 Godot Engine 开发像素风 2D 平台跳跃游戏，设计并实现 3 个风格各异的关卡，融合收集、解谜与角色成长机制，提升玩法层次与玩家参与感。",
+      "与队友二人组协作完成关卡设计、脚本编写、玩法机制开发与测试迭代的完整流程，使用 Aseprite 制作全部游戏内美术资源，并以开发日志持续记录设计决策与迭代过程。",
+      "将 HCI 原则系统性地应用于玩家体验设计，构建低侵入式教程系统，结合文本提示、音效引导与宠物角色辅助，降低新手上手门槛并减少沉浸感打断。",
+      "面向 20+ 名参与者开展结构化玩家体验调研，针对反馈中反复出现的控制手感与理解障碍进行定向迭代，推动游戏可理解性与操作流畅度的实质性改善。",
+    ],
     tags: ["Godot Engine", "GDScript", "Aseprite", "HCI", "游戏设计"],
     color: "bg-yellow-500",
   },
   {
     date: "2021–2023",
     title: "国家级科创项目：基于 DRL 优化无人机辅助 IoT 网络性能",
-    description: "针对无人机辅助 IoT 网络中传统方法难以动态兼顾数据新鲜度与安全约束的问题，设计深度强化学习（DRL）算法用于导航与资源调度，将安全约束违规率降低 40%，AoI 较基准提升 23%。领导 5 人研究团队完成算法设计、仿真环境开发与性能验证，成果发表于 IEEE Wireless Communications Letters。",
+    role: "团队负责人",
+    location: "中国陕西",
+    period: "2021年12月 – 2023年8月",
+    bullets: [
+      "针对 UAV 辅助 IoT 网络中传统优化方法难以在动态环境下同时兼顾数据新鲜度与安全约束的问题，设计深度强化学习（DRL）算法用于 UAV 导航与资源决策，在满足系统安全约束的前提下，将约束违规率降低 40%，并改善平均信息年龄（AoI）。",
+      "基于 PyTorch 实现 DRL 算法，并使用 OpenAI Gym 从零搭建自定义仿真环境；完成 5,000+ 个 episode 训练与 100+ 轮测试验证，数据新鲜度较基准算法提升 23%。",
+      "领导 5 人研究团队，统筹算法设计、仿真环境开发与性能验证，推动项目成果发表于 IEEE Wireless Communications Letters。",
+    ],
     tags: ["PyTorch", "OpenAI Gym", "深度强化学习", "无人机", "IoT", "IEEE 论文"],
     color: "bg-pink-500",
   },
@@ -66,11 +117,9 @@ const timelineEntries = [
     <Header lang={lang} currentPath={Astro.url.pathname} />
     <main class="flex-grow pt-20">
       <div class="min-h-screen pt-32 pb-20 px-6 bg-white dark:bg-black relative overflow-hidden">
-        <!-- Grid background -->
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
         <div class="max-w-4xl mx-auto relative">
-          <!-- Title -->
           <div class="text-center mb-24">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-sm font-mono text-black/60 dark:text-white/60 mb-8">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
@@ -87,43 +136,44 @@ const timelineEntries = [
             </p>
           </div>
 
-          <!-- Timeline -->
           <div class="relative space-y-12">
-            <!-- Vertical line -->
             <div class="absolute left-8 top-0 bottom-0 w-px bg-black/10 dark:bg-white/10"></div>
 
             {timelineEntries.map((entry) => (
               <div class="relative pl-24 group">
-                <!-- Timeline dot -->
                 <div class="absolute left-0 top-8 w-16 flex items-center justify-center">
                   <div class={`w-4 h-4 rounded-full border-4 border-white dark:border-black ${entry.color} shadow-lg`}></div>
                 </div>
 
-                <!-- Card -->
                 <div class="p-8 rounded-3xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow">
-                  <!-- Header -->
-                  <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <div class="flex flex-wrap items-center gap-3 mb-2">
                     <span class="text-xs font-mono text-black/40 dark:text-white/40 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full">
                       {entry.date}
                     </span>
                     <h3 class="text-xl font-bold text-black dark:text-white">{entry.title}</h3>
                   </div>
 
-                  <!-- Description -->
-                  <p class="text-black/60 dark:text-white/60 leading-relaxed mb-6">
-                    {entry.description}
+                  <p class="text-sm text-black/40 dark:text-white/40 mb-5">
+                    {[entry.role, entry.location, entry.period].filter(Boolean).join(' · ')}
                   </p>
 
-                  <!-- Tags -->
+                  <ul class="space-y-2.5 mb-6">
+                    {entry.bullets.map((bullet: string) => (
+                      <li class="flex gap-2.5 text-sm text-black/60 dark:text-white/60 leading-relaxed">
+                        <span class="mt-2 h-1.5 w-1.5 rounded-full bg-black/20 dark:bg-white/20 shrink-0"></span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
                   <div class="flex flex-wrap gap-2 mb-4">
-                    {entry.tags.map((tag) => (
+                    {entry.tags.map((tag: string) => (
                       <span class="px-3 py-1 rounded-xl bg-black/5 dark:bg-white/5 text-xs font-mono text-black/60 dark:text-white/60">
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <!-- Link -->
                   {entry.link && (
                     <a href={entry.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-medium text-black/50 dark:text-white/50 hover:text-black dark:hover:text-white transition-colors group/link">
                       {t(lang, 'projects.viewSource')}

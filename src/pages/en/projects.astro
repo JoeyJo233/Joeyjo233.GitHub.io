@@ -11,50 +11,101 @@ const timelineEntries = [
   {
     date: "2025",
     title: "AI Virtual Company — Autonomous Multi-Agent Media Pipeline",
-    description: "Architected a \"virtual company\" multi-agent system (OpenClaw) with four specialized agents: Manager for orchestration, News for automated AI-industry scraping, Voice for audio synthesis (Qwen3 TTS), and Editor for video assembly (Remotion). Automated end-to-end publishing to YouTube, TikTok, and X — ran stably for 1+ month producing 20+ episodes.",
+    role: "Creator",
+    location: "Lund, Sweden",
+    period: "2025",
+    bullets: [
+      `Architected a "virtual company" multi-agent system using OpenClaw, comprising four specialised agents: a Manager Agent for task orchestration, a News Agent for automated AI-industry news scraping, a Voice Agent for audio synthesis (Qwen3 TTS), and an Editor Agent for video assembly (Remotion).`,
+      "Designed inter-agent communication protocols and state handoff mechanisms, decomposing the pipeline into independently executable stages; improved stability and maintainability through clear responsibility boundaries and failure isolation.",
+      "Connected the automated publishing pipeline to YouTube, TikTok, and X, enabling end-to-end automation from news extraction and script generation to speech synthesis, video rendering, and multi-platform publishing; the system ran stably for 1+ month and produced 20+ published episodes, validating the workflow in a real production setting.",
+    ],
     tags: ["OpenClaw", "Multi-Agent Systems", "Python", "Qwen3 TTS", "Remotion", "LLM"],
     color: "bg-blue-500",
   },
   {
     date: "2024",
-    title: "Master's Thesis — DRL-based AoMA Optimization for UAV Systems",
-    description: "Proposed Age of Missed Alarm (AoMA) as a semantic communication metric for UAV remote surveillance, formulated as an MDP. Built a custom simulation platform and evaluated a DDQN policy against a Greedy baseline across 100 runs each; DDQN reduced average AoMA by 6.4% under alarm-intensive conditions with zero failures.",
+    title: "DRL-based AoMA Optimization in UAV-assisted Communication System",
+    role: "Researcher",
+    location: "Linköping, Sweden",
+    period: "2024 – 2026",
+    bullets: [
+      "Proposed applying Age of Missed Alarm (AoMA), a semantic communication metric that captures the cost of undetected alarms rather than mere transmission delay, to UAV remote surveillance; formulated the scheduling problem as a Markov Decision Process (MDP) where the UAV must balance patrolling, alarm response, and recharging under strict battery constraints.",
+      "Built a custom simulation platform modelling stochastic alarm generation at two remote sites, enabling reproducible evaluation of scheduling policies across alarm-intensive and alarm-sparse environments.",
+      "Implemented and evaluated a DDQN policy against a deterministic Greedy baseline with 100 runs each; under alarm-intensive conditions, DDQN reduced average AoMA by 6.4% (221.89 vs. 236.96) with zero failures, validating AoMA as a practical semantic optimization objective for real-world UAV systems.",
+    ],
     tags: ["PyTorch", "Deep Reinforcement Learning", "UAV", "DDQN", "Python", "MDP"],
     color: "bg-purple-500",
   },
   {
     date: "2024",
     title: "IoT Sensor Data Integration System",
-    description: "Built a Producer/Consumer microservices pipeline (Java Spring Boot) with Kafka buffering, Redis real-time caching, and MongoDB persistence. Reduced producer-side blocking by 80% vs. synchronous writes; recovered 10,000+ buffered messages after a simulated DB outage with zero loss. Full CI/CD via GitHub Actions with Trivy image vulnerability scanning.",
+    role: "Developer",
+    location: "Linköping, Sweden",
+    period: "Jan 2024 – Apr 2024",
+    bullets: [
+      "Built an IoT sensor data pipeline with a Producer/Consumer microservices architecture in Java (Spring Boot) to sustain ingestion responsiveness during traffic spikes and database slowdowns, reducing producer-side blocking time by 80% versus synchronous database writes.",
+      "Integrated Apache Kafka for high-frequency event buffering, with Redis for real-time caching and MongoDB for persistent storage; validated resilience by successfully recovering 10,000+ buffered messages after a simulated database outage with no message loss observed in testing.",
+      "Implemented a GitHub Actions CI/CD workflow to run unit tests, build Docker images, scan images with Trivy for known vulnerabilities, and publish versioned images to GitHub Container Registry (GHCR).",
+    ],
     tags: ["Java", "Spring Boot", "Apache Kafka", "Redis", "MongoDB", "Docker", "CI/CD"],
     color: "bg-green-500",
   },
   {
     date: "2023–2024",
     title: "VAST Challenge — Multimodal Fraud Detection & Visual Analytics",
-    description: "Analyzed 500,000+ credit card transactions and GPS trajectories to detect potential fraud. Built interactive dashboards with Plotly Dash and a social-network graph (Dash Cytoscape) covering 100+ entities and 2,000+ relationships, ultimately isolating key fraud nodes and transaction chains.",
+    role: "Data Analyst",
+    location: "Norrköping, Sweden",
+    period: "Dec 2023 – Dec 2024",
+    bullets: [
+      "For a multimodal fraud detection task, analyzed and visualized 500,000+ credit card and loyalty-card transactions together with vehicle trajectory data; built an interactive analytics system that identified 50+ suspicious transactions.",
+      "Used Pandas to clean 10,000+ anomalous records and QGIS to analyze 500+ GPS trajectories, generating detailed spatiotemporal movement maps that reduced noise in downstream graph analysis and improved input data quality.",
+      "Built interactive dashboards with Plotly Dash and constructed a social network with Dash Cytoscape, covering 100+ entities and 2,000+ relationships, ultimately isolating key fraud nodes and transaction chains.",
+    ],
     tags: ["Python", "Pandas", "Plotly Dash", "QGIS", "Data Visualization", "Graph Analysis"],
     color: "bg-orange-500",
     link: "https://github.com/JoeyJo233/VAST_Challenge_2021_MC2",
   },
   {
     date: "2024",
-    title: "Didier's Tomb — Horror VR Game (Unreal Engine 5)",
-    description: "Co-developed a complete horror VR game in a 3-person team using UE5.4, featuring a Gothic cathedral, a dungeon, AI enemy behavior trees (patrol/chase/attack), VR firearm mechanics, and Lumen dynamic lighting. Applied Gestalt principles to level design and iterated on accessibility after real-user playtesting. Demonstrated at Norrkoping Visualization Center.",
+    title: "Didier's Tomb — Horror VR Game Development",
+    role: "Team Member (3-person team)",
+    location: "Norrkoping, Sweden",
+    period: "Jan 2024 – Apr 2025",
+    bullets: [
+      "Co-developed a complete horror VR game, Didier's Tomb, in a three-person team using Unreal Engine 5.4; built two major environments, a Gothic-style cathedral and a dungeon, together with interactive puzzle mechanics and AI-driven enemies; the final game was presented at Norrkoping Visualization Center as part of the course showcase.",
+      "Implemented a three-state AI enemy behavior system for zombies using UE5 Behavior Tree with patrol, chase, and attack states; combined it with directional audio triggers and VR firearm interaction to strengthen immersion and tension.",
+      "Applied Gestalt principles systematically to level design, using lighting cues, object placement, and snapping feedback to reduce puzzle comprehension barriers; iterated on accessibility issues such as player height adaptation and trigger-box sizing after real-user playtesting.",
+      "Used Lumen to create dynamic lighting and volumetric fog for horror atmosphere, combined Nanite-based high-fidelity Gothic assets with a custom SkyBox, and managed three-person collaboration and version control through Azure DevOps.",
+    ],
     tags: ["Unreal Engine 5", "VR", "C++", "Behavior Tree", "Lumen", "Nanite", "Azure DevOps"],
     color: "bg-red-500",
   },
   {
     date: "2024",
-    title: "Pixel Rush — 2D Platformer (Godot Engine)",
-    description: "Developed a pixel-art 2D platformer with 3 stylistically distinct levels combining collection, puzzle-solving, and character progression. Applied HCI principles to build a low-friction tutorial system (text hints + audio cues + pet companion). Conducted structured playtesting with 20+ participants and iterated on control feel and comprehension barriers.",
+    title: "Pixel Rush — 2D Platformer Game Development with Godot",
+    role: "Game Developer",
+    location: "Linköping, Sweden",
+    period: "Jun 2024 – Oct 2024",
+    bullets: [
+      "Developed a pixel-art 2D platformer with Godot Engine, designing and implementing 3 stylistically distinct levels that combined collection, puzzle-solving, and character progression mechanics to enrich gameplay depth and player engagement.",
+      "Collaborated in a two-person team across the full pipeline of level design, scripting, gameplay system development, and iterative testing; created all in-game art assets with Aseprite and maintained a development log to document design decisions and iteration history.",
+      "Applied HCI principles systematically to player experience design by building a low-intrusion tutorial system that combined textual hints, audio cues, and a pet companion character to lower onboarding friction without breaking immersion.",
+      "Conducted structured playtesting with 20+ participants and iterated specifically on recurring feedback around control feel and comprehension barriers, improving the game's learnability and interaction smoothness.",
+    ],
     tags: ["Godot Engine", "GDScript", "Aseprite", "HCI", "Game Design"],
     color: "bg-yellow-500",
   },
   {
     date: "2021–2023",
     title: "DRL for UAV-assisted IoT Networks (National Innovation Project)",
-    description: "Designed a deep reinforcement learning algorithm for UAV navigation and resource scheduling in dynamic IoT networks, reducing safety-constraint violations by 40% and improving AoI by 23% over baseline. Led a 5-member research team across algorithm design, simulation, and validation. Results published in IEEE Wireless Communications Letters.",
+    role: "Team Lead",
+    location: "Shaanxi, China",
+    period: "Dec 2021 – Aug 2023",
+    bullets: [
+      "Addressed the limitations of traditional optimization methods in UAV-assisted IoT networks under dynamic environments by designing a deep reinforcement learning (DRL) algorithm for UAV navigation and resource decision-making; reduced safety-constraint violations by 40% while improving the Age of Information (AoI).",
+      "Implemented the DRL algorithm in PyTorch and built a custom simulation environment from scratch with OpenAI Gym; completed 5,000+ training episodes and 100+ evaluation runs, improving data freshness by 23% over baseline methods.",
+      "Led a 5-member research team, coordinating algorithm design, simulation environment development, and performance validation; the resulting work was published in IEEE Wireless Communications Letters.",
+    ],
     tags: ["PyTorch", "OpenAI Gym", "Deep Reinforcement Learning", "UAV", "IoT", "IEEE Publication"],
     color: "bg-pink-500",
   },
@@ -95,19 +146,28 @@ const timelineEntries = [
                 </div>
 
                 <div class="p-8 rounded-3xl border border-black/10 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow">
-                  <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <div class="flex flex-wrap items-center gap-3 mb-2">
                     <span class="text-xs font-mono text-black/40 dark:text-white/40 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full">
                       {entry.date}
                     </span>
                     <h3 class="text-xl font-bold text-black dark:text-white">{entry.title}</h3>
                   </div>
 
-                  <p class="text-black/60 dark:text-white/60 leading-relaxed mb-6">
-                    {entry.description}
+                  <p class="text-sm text-black/40 dark:text-white/40 mb-5">
+                    {[entry.role, entry.location, entry.period].filter(Boolean).join(' · ')}
                   </p>
 
+                  <ul class="space-y-2.5 mb-6">
+                    {entry.bullets.map((bullet: string) => (
+                      <li class="flex gap-2.5 text-sm text-black/60 dark:text-white/60 leading-relaxed">
+                        <span class="mt-2 h-1.5 w-1.5 rounded-full bg-black/20 dark:bg-white/20 shrink-0"></span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
                   <div class="flex flex-wrap gap-2 mb-4">
-                    {entry.tags.map((tag) => (
+                    {entry.tags.map((tag: string) => (
                       <span class="px-3 py-1 rounded-xl bg-black/5 dark:bg-white/5 text-xs font-mono text-black/60 dark:text-white/60">
                         {tag}
                       </span>
